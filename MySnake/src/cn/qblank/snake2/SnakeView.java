@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import cn.qblank.FrameTool.FrameUtil;
 /**
  * 贪吃蛇2.0
- * @author 秋波同学
+ * @author evan_qb
  *
  */
 public class SnakeView extends JPanel {
@@ -164,6 +164,12 @@ public class SnakeView extends JPanel {
 	public void move() {
 		// 获取蛇头
 		Point head = snake.getFirst();
+		
+		//如果游戏结束跳出该方法
+		if (isGameOver()) {
+			return;
+		}
+		
 		switch (currentDirection) {
 		// 向上
 		case 1:
@@ -196,7 +202,6 @@ public class SnakeView extends JPanel {
 				snake.addFirst(new Point(head.x + 1, head.y));
 
 			}
-			// System.out.println("向右");
 			break;
 
 		default:
@@ -204,12 +209,12 @@ public class SnakeView extends JPanel {
 		}
 		// 如果吃到了食物
 		if (eatFood()) {
-			System.out.println("吃到了");
+//			System.out.println("吃到了");
 			// 创建新的食物
 			createFood();
 
 		} else {
-			System.out.println("没吃到");
+//			System.out.println("没吃到");
 			// 删除蛇尾
 			snake.removeLast();
 		}
@@ -266,10 +271,8 @@ public class SnakeView extends JPanel {
 		if (isGameOver()) {
 			g.setColor(Color.RED);
 			g.setFont(new Font("宋体", Font.BOLD, 50));
-			g.drawString("GameOver", WIDTH * CELLWIDTH / 2 - 4, HEIGHT
+			g.drawString("GameOver", WIDTH * CELLWIDTH / 2 - 50, HEIGHT
 					* CELLHEIHT / 2);
-			// System.exit(0);
-			
 		}
 
 	}
@@ -297,6 +300,7 @@ public class SnakeView extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int code = e.getKeyCode();
+				
 				switch (code) {
 				// 向上
 				case KeyEvent.VK_UP:
@@ -324,24 +328,12 @@ public class SnakeView extends JPanel {
 					break;
 
 				}
-				if (snakeView.isGameOver()) {
-					System.exit(0);
-				}
+			
 				snakeView.move();
-				// 如果吃到了食物
-				/*
-				 * if (snakeView.eatFood()) { //创建新的食物 snakeView.createFood();
-				 * 
-				 * }else{ // 删除蛇尾 snake.removeLast(); }
-				 */
 
 				// 刷新画布
 				snakeView.repaint();
-				if (snakeView.isGameOver()) {
-					
-					// System.out.println("游戏结束");
-					// System.exit(0);
-				}
+				
 			}
 
 		});
